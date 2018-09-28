@@ -68,7 +68,7 @@ class PotentialFields {
                 // Goal has minimum potential value
                 if (i == goal.x && j == goal.y)
                     pf = 0;
-                else 
+                else
                     pf = Math.pow(i - goal.x, 2) + Math.pow(j - goal.y, 2) + this.grid.repulsive_map[i][j];
                 l.push(pf);
 

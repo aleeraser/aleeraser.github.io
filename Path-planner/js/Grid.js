@@ -750,11 +750,10 @@ class Grid {
 
             if (pointList && pointList.length > 0) {
                 this.addPath(pointList, "path", grid.SMALL, this.BEST_PATH_COLOR);
-                if (pointList[pointList.length-1].x == this.objects['end'].x &&  pointList[pointList.length-1].y == this.objects['end'].y) {
+                if (pointList[pointList.length - 1].x == this.objects['end'].x && pointList[pointList.length - 1].y == this.objects['end'].y) {
                     this.setPerformance(computeTime, unit, pointList.length);
                     this.setObjectPosition("start", pointList[0].x, pointList[0].y);
-                }
-                else {
+                } else {
                     this.setPerformance(computeTime, unit, -1);
                 }
             } else {
@@ -793,7 +792,7 @@ class Grid {
         return r;
     }
 
-    togglePotentialLabels() {                
+    togglePotentialLabels() {
         this.potential_labels = !this.potential_labels;
         if (this.potential_labels) {
             console.log(this.potential_map);
@@ -847,13 +846,13 @@ class Grid {
 
     handleFiles(file) {
         var self = this;
-        this.reader.onload = function(event) {
+        this.reader.onload = function (event) {
             var read_map_json = JSON.parse(event.target.result)
 
             // Check size
             if (self.size.x < read_map_json['size'].x || self.size.y < read_map_json['size'].y) {
                 var alert_str = 'Map dimensions non compatible:\n';
-                alert_str += 'Trying to load (' + read_map_json['size'].x + ', ' + read_map_json['size'].y + ') on a (' + self.size.x + ', ' + self.size.y + ') map.' 
+                alert_str += 'Trying to load (' + read_map_json['size'].x + ', ' + read_map_json['size'].y + ') on a (' + self.size.x + ', ' + self.size.y + ') map.'
                 alert(alert_str);
                 return;
             }

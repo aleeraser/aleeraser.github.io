@@ -78,29 +78,25 @@
                 <div id='potential-checkbox-container' class='input-field col s12' hidden>
                     <p>
                         <label>
-                            <input id='potential-checkbox' type='checkbox' onclick='grid.togglePotentialLabels()'
-                                class='filled-in' />
+                            <input id='potential-checkbox' type='checkbox' onclick='grid.togglePotentialLabels()' class='filled-in' />
                             <span class="black-text">Show potential fields values</span>
                         </label>
-                        <input id="repulsive-value" value="30" type="number" min="1" max="500" step="1" class="validate" 
-                            onchange="grid.potentialParameters()"
-                            oninput="grid.potentialParameters()">
+                        <input id="repulsive-value" value="30" type="number" min="1" max="500" step="1" class="validate"
+                            onchange="grid.potentialParameters()" oninput="grid.potentialParameters()">
                         <label for="repulsive-value">Repulsive Value</label>
-                        <input id="distance-of-influence" value="1" type="number" min="0" max="5" step="1" class="validate" 
-                            onchange="grid.potentialParameters()"
-                            oninput="grid.potentialParameters()">
+                        <input id="distance-of-influence" value="1" type="number" min="0" max="5" step="1" class="validate"
+                            onchange="grid.potentialParameters()" oninput="grid.potentialParameters()">
                         <label for="distance-of-influence">Obstacle Repulsive Range</label>
                     </p>
                 </div>
 
                 <div id='probabilistic-nodes-container' class="input-field col s6" hidden>
-                    <input id="probabilistic-nodes" value="10" type="number" min="1" max="100" step="1" class="validate" 
-                            onchange="grid.probabilisticNodes()"
-                            oninput="grid.probabilisticNodes()">
+                    <input id="probabilistic-nodes" value="10" type="number" min="1" max="100" step="1" class="validate"
+                        onchange="grid.probabilisticNodes()" oninput="grid.probabilisticNodes()">
                     <label for="probabilistic-nodes">Number of Nodes</label>
                 </div>
-                
-               
+
+
             </div>
             <div class='card-action center-align'>
                 <button class='btn blue-grey white-text' onclick='grid.clearWalls()'>Clear obstacles</button>
@@ -111,13 +107,13 @@
                 <button class='btn blue-grey white-text' onclick='grid.downloadMap()'>Save Map</button>
                 <div class="file-field input-field">
                     <div class="btn">
-                      <span>Load Map</span>
-                      <input type="file" onchange="grid.handleFiles(this.files)">
+                        <span>Load Map</span>
+                        <input type="file" onchange="grid.handleFiles(this.files)">
                     </div>
                     <div class="file-path-wrapper">
-                      <input class="file-path validate" type="text">
+                        <input class="file-path validate" type="text">
                     </div>
-                  </div>
+                </div>
             </div>
 
         </div>

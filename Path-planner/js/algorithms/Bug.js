@@ -43,7 +43,7 @@ class Bug {
     tangentBug() {
         log.debug("tangent bug");
         var startTime = performance.now();
-       
+
         var path = [];
         for (var i = 0; i < this.dummyPath.length; i++) { //try to follow the dummy path
             var cTime = performance.now();
@@ -384,7 +384,7 @@ class Bug {
                 path.push(step);
                 var lastStep = this.dummyPath[this.grid.isInPath(this.dummyPath, step) - 1];
                 path = this.circumnavigate2(lastStep, step, path, this.dummyPath, startTime)
-                if (path.length == 0) 
+                if (path.length == 0)
                     return path
                 log.debug("raggirato")
                 var last = path[path.length - 1]
@@ -397,7 +397,7 @@ class Bug {
 
     circumnavigate2(lastStep, obstacle, newPath, oldPath, startTime) {
         var cTime = performance.now();
-        if (cTime - startTime > 1000){
+        if (cTime - startTime > 1000) {
             log.debug("TOOO MUCH TIME")
             return [];
         }
