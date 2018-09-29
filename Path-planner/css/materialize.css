@@ -8155,6 +8155,10 @@ input[type=range]::-ms-thumb {
   border-color: #0f9d58;
 }
 
+.spinner-blue-gray {
+  border-color: #546e7a;
+}
+
 /**
  * IMPORTANT NOTE ABOUT CSS ANIMATION PROPERTIES (keanulee):
  *

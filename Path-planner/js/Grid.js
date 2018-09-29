@@ -688,6 +688,9 @@ class Grid {
     evaluatePath() {
         if (this.drawPath) {
 
+            // add loading indications
+            // $('body').css('cursor', 'progress');
+
             // Remove all previous paths and points, except for 'start' and 'end' points
             for (var key in this.objects) {
                 var obj = this.objects[key];
@@ -749,6 +752,7 @@ class Grid {
             }
 
             if (pointList && pointList.length > 0) {
+
                 this.addPath(pointList, "path", grid.SMALL, this.BEST_PATH_COLOR);
                 if (pointList[pointList.length - 1].x == this.objects['end'].x && pointList[pointList.length - 1].y == this.objects['end'].y) {
                     this.setPerformance(computeTime, unit, pointList.length);
@@ -760,6 +764,9 @@ class Grid {
                 this.setPerformance(computeTime, unit, -1);
             }
         }
+
+        // remove loading indicators
+        this.setLoading(false);
     }
 
     setPerformance(time, unit, pathLen) {
@@ -795,9 +802,10 @@ class Grid {
     togglePotentialLabels() {
         this.potential_labels = !this.potential_labels;
         if (this.potential_labels) {
-            console.log(this.potential_map);
+            log.debug(this.potential_map);
+
             // There is no potential map yet
-            if (this.potential_map.length == 0) {
+            if (!this.potential_map || this.potential_map.length == 0) {
                 return;
             }
 
@@ -867,5 +875,20 @@ class Grid {
             self.updateGraphics();
         };
         this.reader.readAsText(file[0], 'UTF-8');
+    }
+
+    setLoading(visible) {
+        if (visible) {
+            $('*').css('cursor', 'progress');
+            $('.performance').append($(
+                "<div class='center' id='spinner-container'><div class='center preloader-wrapper small active'><div class='spinner-layer spinner-blue-gray'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div></div></div>"
+            ));
+            $('.performance > ul').hide();
+        } else {
+            $('*').css('cursor', 'default');
+            $('.card-content').css('cursor', 'move');
+            $("#spinner-container").remove();
+            $('.performance > ul').show();
+        }
     }
 }

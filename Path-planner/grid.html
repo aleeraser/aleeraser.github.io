@@ -9,9 +9,9 @@
 
 </head>
 
-<body class='dark-theme'>
+<body class="dark-theme">
     <canvas id='canvas'></canvas>
-    <div class='draggable card blue-grey lighten-5'>
+    <div class='draggable card card-menu blue-grey lighten-5'>
         <div class='card-content'>
 
             <div class='row'>
@@ -46,26 +46,26 @@
                 <br />
 
                 <div class='input-field col s12'>
-                    <p class='label instruction-header'>Theme</p>
+                    <p class='label instruction-header grey-text'>Grid theme</p>
                     <p>
                         <label>
                             <input type='radio' class='with-gap' name='theme' value='dark' onclick='updateTheme(this);'
                                 checked />
-                            <span class='theme-option'>Dark</span>
+                            <span class='theme-option blue-grey-text text-darken-4'>Dark</span>
                         </label>
                     </p>
                     <p>
                         <label>
                             <input type='radio' class='with-gap' name='theme' value='light' onclick='updateTheme(this);' />
-                            <span class='theme-option'>Light</span>
+                            <span class='theme-option blue-grey-text text-darken-4'>Light</span>
                         </label>
                     </p>
                 </div>
 
                 <br />
 
-                <div class='input-field col s12'>
-                    <p class='instruction-header'>Adjust cells size
+                <div class='input-field col s12 button-container'>
+                    <p>Adjust cells size
                         <button id='decreaseCellsSize' class='btn blue-grey white-text' disabled onclick='grid.decreaseCellsSize(this)'>
                             <i class='material-icons'>zoom_out</i>
                         </button>
@@ -75,45 +75,46 @@
                     </p>
                 </div>
 
-                <div id='potential-checkbox-container' class='input-field col s12' hidden>
+                <div id='potential-parameters-container' class='input-field col s12' hidden>
                     <p>
                         <label>
                             <input id='potential-checkbox' type='checkbox' onclick='grid.togglePotentialLabels()' class='filled-in' />
                             <span class="black-text">Show potential fields values</span>
                         </label>
-                        <input id="repulsive-value" value="30" type="number" min="1" max="500" step="1" class="validate"
-                            onchange="grid.potentialParameters()" oninput="grid.potentialParameters()">
-                        <label for="repulsive-value">Repulsive Value</label>
-                        <input id="distance-of-influence" value="1" type="number" min="0" max="5" step="1" class="validate"
-                            onchange="grid.potentialParameters()" oninput="grid.potentialParameters()">
-                        <label for="distance-of-influence">Obstacle Repulsive Range</label>
+                        <div class="col s6">
+                            <input id="repulsive-value" type="number" value="30" min="1" max="500" step="1" class="validate"
+                                onchange="grid.potentialParameters()" oninput="grid.potentialParameters()" />
+                            <label for="repulsive-value">Repulsive Value</label>
+                        </div>
+                        <div class="col s6">
+                            <input id="distance-of-influence" value="1" type="number" min="0" max="5" step="1" class="validate"
+                                onchange="grid.potentialParameters()" oninput="grid.potentialParameters()" />
+                            <label for="distance-of-influence">Obstacle Repulsive Range</label>
+                        </div>
                     </p>
                 </div>
 
-                <div id='probabilistic-nodes-container' class="input-field col s6" hidden>
+                <div id='probabilistic-nodes-container' class="input-field col s12" hidden>
                     <input id="probabilistic-nodes" value="10" type="number" min="1" max="100" step="1" class="validate"
                         onchange="grid.probabilisticNodes()" oninput="grid.probabilisticNodes()">
-                    <label for="probabilistic-nodes">Number of Nodes</label>
+                    <label for="probabilistic-nodes">Number of nodes</label>
                 </div>
 
-
             </div>
+
             <div class='card-action center-align'>
                 <button class='btn blue-grey white-text' onclick='grid.clearWalls()'>Clear obstacles</button>
                 <button class='btn blue-grey white-text' onclick='grid.clearPaths()'>Clear path</button>
             </div>
 
             <div class='card-action center-align'>
-                <button class='btn blue-grey white-text' onclick='grid.downloadMap()'>Save Map</button>
-                <div class="file-field input-field">
-                    <div class="btn">
-                        <span>Load Map</span>
-                        <input type="file" onchange="grid.handleFiles(this.files)">
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text">
-                    </div>
-                </div>
+                <button class='btn blue-grey white-text' onclick='grid.downloadMap()'>
+                    <i class='material-icons left'>file_download</i>Save Map
+                </button>
+                <input type="file" id="selectedMap" onchange="grid.handleFiles(this.files)">
+                <button class='btn blue-grey white-text' onclick="document.getElementById('selectedMap').click();">
+                    <i class='material-icons left'>file_upload</i>Upload Map
+                </button>
             </div>
 
         </div>
@@ -122,7 +123,7 @@
     <div class='draggable card-performance blue-grey lighten-4'>
         <h5 class='center card-title blue-grey-text text-darken-1'>Performance</h5>
         <div class='card-content'>
-            <div class='performance'>
+            <div class='performance blue-grey lighten-5 blue-grey-text text-darken-4'>
                 <ul class='collection'>
                     <li class='collection-item blue-grey lighten-5 blue-grey-text text-darken-4'>Compute time: <span id='time'>N/A</span>.</li>
                     <li class='collection-item blue-grey lighten-5 blue-grey-text text-darken-4'>Path length: <span id='length'>N/A</span>.</li>
@@ -189,27 +190,12 @@
         }
 
         // theme selection
-        var currentTheme = 'dark';
-
-        function updateTheme(themeSelectionRadio) {
-            currentTheme = themeSelectionRadio.value;
-            if (currentTheme == 'light') {
+        function updateTheme(selectedTheme) {
+            if (selectedTheme.value == 'light') {
                 $('body').removeClass('dark-theme').addClass('light-theme');
-                $('.card').removeClass('lighten-5').addClass('darken-3');
-                $('.collapsible-header').removeClass('lighten-4').addClass('text-lighten-4');
-                $('.collapsible-body').removeClass('white').addClass('blue-grey').addClass('darken-1').addClass(
-                    'blue-grey-text').addClass('text-lighten-4');
-                $('.instruction-header').addClass('blue-grey-text').addClass('text-lighten-2');
-                $('.theme-option').addClass('blue-grey-text').addClass('text-lighten-4');
                 grid.lightTheme(true);
-            } else if (currentTheme == 'dark') {
+            } else if (selectedTheme.value == 'dark') { // switch to light
                 $('body').removeClass('light-theme').addClass('dark-theme');
-                $('.card').removeClass('darken-3').addClass('lighten-5');
-                $('.collapsible-header').removeClass('text-lighten-4').addClass('lighten-4');
-                $('.collapsible-body').removeClass('blue-grey').removeClass('darken-1').removeClass(
-                    'blue-grey-text').removeClass('text-lighten-4').addClass('white');
-                $('.instruction-header').removeClass('blue-grey-text').removeClass('text-lighten-2');
-                $('.theme-option').removeClass('blue-grey-text').removeClass('text-lighten-4');
                 grid.darkTheme(true);
             }
         }
@@ -224,8 +210,6 @@
             // materialize select initialization
             $('select').formSelect();
 
-            //$('#probabilistic-nodes').updateTextFields();
-
             // materialize collapsible panel initialization
             $('.collapsible').collapsible();
 
@@ -236,20 +220,27 @@
             // path planning algorithm update on select change
             grid.setAlgorithm($('#algorithmSelect').val());
             $('#algorithmSelect').on('change', function () {
-                grid.setAlgorithm($(this).val());
-                grid.evaluatePath();
+                // show loading indicators
+                grid.setLoading(true);
 
-                if ($(this).val() == 'potential' || $(this).val() == 'potential-memory') {
-                    $('#potential-checkbox-container').show();
-                } else {
-                    $('#potential-checkbox-container').hide();
-                }
+                setTimeout(() => {
+                    grid.setAlgorithm($(this).val());
+                    grid.evaluatePath();
 
-                if ($(this).val() == 'probabilistic') {
-                    $('#probabilistic-nodes-container').show();
-                } else {
-                    $('#probabilistic-nodes-container').hide();
-                }
+                    if ($(this).val() == 'potential' || $(this).val() == 'potential-memory') {
+                        $('#potential-parameters-container').show();
+                    } else {
+                        $('#potential-parameters-container').hide();
+                    }
+
+                    if ($(this).val() == 'probabilistic') {
+                        $('#probabilistic-nodes-container').show();
+                    } else {
+                        $('#probabilistic-nodes-container').hide();
+                    }
+
+                }, 200);
+
             });
 
 
@@ -257,7 +248,9 @@
             var instructionsPanel = $('.draggable');
 
             instructionsPanel.on('mousedown', function (e) {
-                event.preventDefault();
+                if (!($(e.target).is($('input')))) {
+                    e.preventDefault();
+                }
 
                 var dr = $(this).addClass('drag').css('cursor', 'move');
                 height = dr.outerHeight();
